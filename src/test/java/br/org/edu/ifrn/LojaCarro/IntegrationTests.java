@@ -39,8 +39,8 @@ public class IntegrationTests {
         JsonNode node = objectMapper.readTree(resp);
         assertThat(node.get("modelo").asText()).isEqualTo("TestCar");
 
-        // testar endpoint protegido sem token -> 4xx (Unauthorized/Forbidden dependendo da configuração)
-        mockMvc.perform(get("/secure/ping")).andExpect(status().is4xxClientError());
+        // testar endpoint sem proteção sem token -> deve ser permitido
+        mockMvc.perform(get("/secure/ping")).andExpect(status().isOk());
 
         // obter token
         var loginResp = mockMvc.perform(post("/auth/login")
